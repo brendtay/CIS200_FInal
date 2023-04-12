@@ -1,0 +1,16 @@
+{
+  "name": "midterm",
+  "version": "1.0.0",
+  "description": "DroneWindow is a service that uses drones to deliver food products to your window",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "Brendan Taylor and Lucas McColgan",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express.js": "^1.0.0"
+  }
+}

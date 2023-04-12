@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>McDonalds</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js" type="text/javascript"></script>
+</head>
+
+<body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <div class="mb-4 mt-3">
+        <div class="has-bg-img" style="text-align: center;">
+            <img class="bg-img" src="McDonald's.webp" alt="drone" height="500" width="500">
+            <div class="card-body" style="text-align: center; padding: 10px" >
+                <h1><b>Welcome to McDonalds order page!</b></h1>
+            </div>           
+        </div>
+    </div>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    </nav>
+
+    <div class="mb-4 mt-3">
+        <div class="has-bg-img" style="text-align: center;">
+            <img class="bg-img" src="mcFries.png" alt="drone">
+            <div class="card-body" style="text-align: center; padding: 10px" >
+                <h1><b>Sponsored By The Fries Themselfs Not Actually McDonalds</b></h1>
+            </div>           
+        </div>
+    </div>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    </nav>
+
+    <div>
+        <div class="has-bg-img mt-3">
+            <div class="card-body" style="text-align: center; padding: 10px" >
+                <a><h1><b>Products</b></h1></a>
+            </div>           
+        </div>
+    </div>
+
+    <div class="container mt-4 mb-5">
+        <div class="row allign-items-center has-bg-img" >
+            <div class="col-md text-center">
+                <img class="bg-img mb-2" src="bigMac.jfif" alt="bigMac" width="400" height="300">
+                    <h2 style="text-align: center;"><b>Big Mac</b></h2>
+                        <nav class="navbar navbar-expand-lg navbar-dark bg-primary mt-3">
+                        </nav>
+                        <div class="container-sm mt-3 mb-3">
+                            <div class="row allign-items-center">              
+                                <div class="col-md mt-3 mb-3">
+                                    <div class="text-left" style="padding-top: 1%;">
+                                    <button type="button" class="btn btn-outline-primary btn-lg" id = "BM-sandwich"><h4>Sandwich Only - $4.50</button>
+                                    </div>
+                                </div>
+                                <div class="col-md mt-3 mb-3">
+                                    <div class="" style="padding-top: 1%;">
+                                    <button type="button" class="btn btn-outline-primary btn-lg" id = "BM-meal"><h5>Meal (Fries and Drink) - $7.75</h5></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>       
+            <div class="col-md text-center">
+                <img class="bg-img mb-2" src="QuarterPounder.jfif" alt="bigMac" width="400" height="300">
+                    <h2 style="text-align: center;"><b>Quarter Pounder</b></h2>
+                        <nav class="navbar navbar-expand-lg navbar-dark bg-primary mt-3">
+                        </nav>
+                        <div class="container-sm mt-3 mb-3">
+                            <div class="row allign-items-center">              
+                                <div class="col-md mt-3 mb-3">
+                                    <div class="text-left" style="padding-top: 1%;">
+                                        <button type="button" class="btn btn-outline-primary btn-lg" id = "QP-sandwich"><h4>Sandwich Only - $4</button>
+                                    </div>
+                                </div>
+                            <div class="col-md mt-3 mb-3">
+                            <div style="padding-top: 1%;">
+                                <button type="button" class="btn btn-outline-primary btn-lg" id = "QP-meal"><h5>Meal (Fries and Drink) - $7</h5></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mx-auto mb-4 text-center">
+        <div class="card mb-4">
+            <div class="" style=" padding: 4%;">
+                <h1><b>Order total</b></h1>
+                    <div id="price"> $0
+                    </div>
+                <div class="text-left" style="padding-top: 1%;">
+                    <button type="button" class="btn btn-outline-primary btn-lg" id = "Checkout">Place Order</button>
+                </div>
+            </div>           
+        </div>
+    </div>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    </nav>
+
+    <div>
+        <div class="has-bg-img mt-3">
+            <div class="card-body" style="text-align: center; padding: 10px" >
+                <a><h1><b>Package Teirs</b></h1></a>
+            </div>           
+        </div>
+    </div>
+
+    <div class="container mt-4 mb-5">
+        <div class="row allign-items-center has-bg-img" >
+            <div class="col-sm" style="text-align: center;">
+                    <h2>Base Package</h2>
+                        <img class="bg-img" src="cheapDrone.png" alt="drone" width="300" height="250">
+                        <p>Delivery time: 1 hour</p>
+                        <div class="text-left" style="padding-top: 1%;">
+                            <button type="button" class="btn btn-secondary btn-lg" id = "baseTier">Free</button>
+                        </div>
+            </div>
+        <div class="col-sm has-bg-img" style="text-align: center;">
+            <h2>Basic Package</h2>
+                <img class="bg-img" src="midTierDrone.png" alt="drone" width="300" height="250">
+                <p>Delivery time: 30 mintues</p>
+                <div class="text-left" style="padding-top: 1%;">
+                    <button type="button" class="btn btn-secondary btn-lg" id = "midTier">$3</button>
+                </div>
+        </div>
+        <div class="col-sm has-bg-img" style="text-align: center;">
+            <h2>Premium Package</h2>
+                <img class="bg-img" src="topTierDrone.png" alt="drone" width="300" height="250">
+                <p>Delivery time: 10 mintues</p>
+                <div class="text-left" style="padding-top: 1%;">
+                    <button type="button" class="btn btn-secondary btn-lg" id = "topTier">$5</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="text-center mt-2 mb-4" style="padding-top: 1%;">
+        <button type="button" class="btn btn-outline-primary btn-lg" id = "homePage">Home Page</button>
+    </div>
+
+    <script src="mcdonaldsOrder.js" type = "text/javascript"></script>
+
+</body>
+
+</html>
