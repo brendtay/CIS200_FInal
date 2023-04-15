@@ -1,13 +1,19 @@
 const express = require("express"); //importing express
 const app = express();
 const cors = require('cors') //imports cors to 
+const Pool = require('pg').Pool
 
 const PORT = process.env.PORT || 3000;
 
 app.use(cors())
 app.use(express.static('public'))
 
-
+const pool = new Pool({
+    user: 'postgres',
+    host: 'localhost',
+    database: 'postgres',
+    port: 5432,
+})
 
 var tierSelected = 0; //Stores the tier that the user selected
 var userOrderTotal = 0; //Stores the total value of the order in a float
@@ -20,7 +26,13 @@ app.get("/drone/:tier", (req, res) => { //pulls the tier selected fromm the webs
 })
 
 app.get("/drone/", (req, res) => { //Pulls the tier selected that is stored at /drone/ 
-    res.send(tierSelected);
+    //res.send(tierSelected);
+
+    //pool.query('SELECT * FROM droneTier', (error, results) => {
+        //if(error) throw error
+        
+        //res.status(200).json(results.rows); 
+    //})
 })
 
 
