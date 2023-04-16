@@ -44,28 +44,34 @@ app.get("/api/users", (req, res) => {
 
     const name = req.body.name;
     const email = req.body.email;
-    id ++;
     
-   
+
+     // Check if name and email are not empty
+    if (!name || !email) {
+        res.status(400).json({ error: 'Name and email are required' });
+        return;
+    }
 
     pool.query('SELECT id FROM users WHERE email = $1', [req.body.email], (error, results) => {
-       
-        if(results.rows.length === 0){
+        if (results.rows.length === 0) {
+            // User does not exist, insert into the database
+            
             const SQL = "INSERT into users (id, name, email) VALUES (" + id + ", '" + name + "', '" + email + "')";
+            id ++;
             pool.query(SQL, (error, results) => {
-                if (error) throw error
-
-                res.status(200).json(results.row);
-                
+                if (error) {
+                    // Handle error during insertion
+                    res.status(500).json({ error: 'Failed to add user' });
+                } else {
+                    // User added successfully
+                    res.status(200).json({ success: 'User added successfully' });
+                }
             });
         } else {
-            res.status(200).json(results.row);
+            // User already exists, return 409 status code
+            res.status(409).json({ error: 'User already exists' });
         }
- 
-        
-    })
-
-    
+    }); 
  })
  
 
@@ -78,11 +84,7 @@ app.get("/drone/:tier", (req, res) => { //pulls the tier selected fromm the webs
 app.get("/drone/", (req, res) => { //Pulls the tier selected that is stored at /drone/ 
     res.send(tierSelected);
 
-    //pool.query('SELECT * FROM droneTier', (error, results) => {
-        //if(error) throw error
-        
-        //res.status(200).json(results.rows); 
-    //})
+    
 })
 
 

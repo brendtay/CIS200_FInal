@@ -12,10 +12,34 @@ $(document).ready(function () {
 
         $.post("/api/users", data, function(data){
            console.log("done"); 
-        });
-    
+        })
+         .fail(function(jqXHR, textStatus, errorThrown) {
+             // Handle error response
+             if (jqXHR.status === 409) {
+                 // If response has a 409 status code, handle user already exists
+                 console.error("User already exists");
+                 $('#btnSave').removeClass('btn-success').addClass('btn-danger')
+
+
+                
+             } else {
+                 // Handle other error status codes
+                 console.error("Failed to add user");
+             }
+         });
+
         console.log(data);
+
+        $("#btnSave").click(function () {  //Takes the user to the order webpage when clicked 
+            window.location.href='order.html';
+        })
+        $("#login").click(function () {  //Takes the user to the order webpage when clicked 
+            window.location.href='order.html';
+        })
+
      
         return false; // Don't remove this line.
+
+       
     });
 });
