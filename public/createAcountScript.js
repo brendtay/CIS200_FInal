@@ -12,6 +12,7 @@ $(document).ready(function () {
 
         $.post("/api/users", data, function(data){
            console.log("done"); 
+           window.location.href='index.html';
         })
          .fail(function(jqXHR, textStatus, errorThrown) {
              // Handle error response
@@ -42,4 +43,11 @@ $(document).ready(function () {
 
        
     });
+        $("#btnSave").click(function () {  //Takes the user to the order webpage when clicked 
+            window.location.href='order.html';
+        })
+        $("#login").click(function () {  //Takes the user to the order webpage when clicked 
+            window.location.href='login.html';
+        })
+
 });

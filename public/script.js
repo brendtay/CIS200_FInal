@@ -1,6 +1,18 @@
 let userChoice = 0; //Stores the users button choice for the teir selection
 
 $(document).ready(function () {
+
+    const name = decodeURIComponent(document.cookie.replace(/(?:(?:^|.*;\s*)name\s*\=\s*([^;]*).*$)|^.*$/, "$1"));
+
+    console.log('Value of "name" cookie:', name);
+
+    const userId = decodeURIComponent(document.cookie.replace(/(?:(?:^|.*;\s*)userId\s*\=\s*([^;]*).*$)|^.*$/, "$1"));
+
+    console.log('Value of "userId" cookie:', userId);
+    $("#username").text(name);
+});
+
+$(document).ready(function () {
     refreshWebPage(); //Loads all information required from the server when the page is refreshed
 });
 
@@ -30,7 +42,7 @@ $("#orderHere").click(function () {  //Takes the user to the order webpage when 
 //This function is used to send what button the user has clicked for the tier
 //to the server. While at the same time it delectes all other buttons that were not selected visually on the webpage. 
 function checkButton(){
-    $.get("http://localhost:3000/drone/" + userChoice, function () {
+    $.get("/drone/" + userChoice, function () {
             console.log("Website is reporting button: " + userChoice);
     })
     if(userChoice == 0){
@@ -52,7 +64,7 @@ function checkButton(){
 //button the user had selected last (this also transfers across webpages). It also
 //pulls what tier was selected from the server. 
 function refreshWebPage(){
-    $.get("http://localhost:3000/drone/", function (pulledUserChoice) {
+    $.get("/drone/", function (pulledUserChoice) {
         console.log("the user choice pulled from the server is: " + pulledUserChoice);
         userChoice = pulledUserChoice; 
         if(pulledUserChoice == 0){

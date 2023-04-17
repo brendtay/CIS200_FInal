@@ -60,7 +60,7 @@ $("#homePage").click(function () {   //This button call takes the user to the we
 
 //Reports the orders total to the server and sents it on the webpage in a text box
 function mealButton(){
-    $.get("http://localhost:3000/user/usertotal/" + userTotal, function () {
+    $.get("/usertotal/" + userTotal, function () {
             console.log("Website is reporting the users total is: " + userTotal);
     })
     console.log(userChoice);
