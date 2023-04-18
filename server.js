@@ -17,16 +17,14 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(cookieParser());
 
 const pool = new Pool({
-    user: process.env.DB_USER,
-    host: process.env.DB_HOST,
-    database: process.env.DB_DATABASE,
-    password: process.env.DB_PASSWORD,
+    user: 'postgres',
+    host: 'localhost',
+    database: 'postgres',
+    password: '2014',
     port: 5432,
 })
 
 
-
-var tierSelected = 0; //Stores the tier that the user selected
 var userOrderTotal = 0; //Stores the total value of the order in a float
 var orderStorage = 0; //Stores the total value of the order in a string to return to the website
 
@@ -58,7 +56,7 @@ app.get("/api/users", (req, res) => {
         return;
     }
 
-    pool.query('SELECT id FROM users WHERE email = $1', [req.body.email], (error, results) => {
+    pool.query('SELECT id, zipcode FROM users WHERE email = $1', [req.body.email], (error, results) => {
         if (error) {
             // Handle error
             console.error('Error executing query:', error);
@@ -71,7 +69,7 @@ app.get("/api/users", (req, res) => {
             res.json({ success: false });
         } else {
             // User found in the database
-            res.json({ success: true });
+            res.json({ success: true , id: results.rows[0].id, zipCode: results.rows[0].zipcode});
         }
     });
 });
@@ -86,7 +84,7 @@ app.post("/api/users", (req, res) => {
 
     const name = req.body.name;
     const email = req.body.email;
-    
+    const zipCode = req.body.zipCode;
 
      // Check if name and email are not empty
     if (!name || !email) {
@@ -98,7 +96,7 @@ app.post("/api/users", (req, res) => {
         if (results.rows.length === 0) {
             // User does not exist, insert into the database
             
-            const SQL = "INSERT into users (id, name, email) VALUES (" + id + ", '" + name + "', '" + email + "')";
+            const SQL = "INSERT into users (id, name, email, zipcode) VALUES (" + id + ", '" + name + "', '" + email + "', '" + zipCode + "')";
             id ++;
             pool.query(SQL, (error, results) => {
                 if (error) {
@@ -116,68 +114,10 @@ app.post("/api/users", (req, res) => {
     }); 
  })
 
- app.post("/api/users", (req, res) => {
-
-    console.log(req.body);
-
-    const name = req.body.name;
-    const email = req.body.email;
-    
-
-     // Check if name and email are not empty
-    if (!name || !email) {
-        res.status(400).json({ error: 'Name and email are required' });
-        return;
-    }
-
-    pool.query('SELECT id FROM users WHERE email = $1', [req.body.email], (error, results) => {
-        if (results.rows.length === 0) {
-            // User does not exist, insert into the database
-            
-            const SQL = "INSERT into users (id, name, email) VALUES (" + id + ", '" + name + "', '" + email + "')";
-            id ++;
-            pool.query(SQL, (error, results) => {
-                if (error) {
-                    // Handle error during insertion
-                    res.status(500).json({ error: 'Failed to add user' });
-                } else {
-                    // User added successfully
-                    res.status(200).json({ success: 'User added successfully' });
-                }
-            });
-        } else {
-            // User already exists, return 409 status code
-            res.status(409).json({ error: 'User already exists' });
-        }
-    }); 
- })
- 
- app.get('/', (req, res) => {
-    // Send the HTML template to the client
-    res.sendFile(__dirname + '/public/index.html');
-  });
-
-app.get("/drone/:tier", (req, res) => { //pulls the tier selected fromm the website
-    tierSelected =  req.params.tier; //looking back this might be pointless but it sends it back to the website
-    //console.log("Server is storing button: " + tierSelected);
-    
+app.get("/user/create/id/", (req, res) => { //Returns the value stores at /usertotal/ when requested by server
+    res.send(id.toString());
 })
 
-app.get("/drone/", (req, res) => { //Pulls the tier selected that is stored at /drone/ 
-    res.send(tierSelected);
-
-    
-})
-
-
-app.get("/user/usertotal/:total", (req, res) => {
-        userOrderTotal = parseFloat(req.params.total); //Stores the users order total on the server as a float
-        orderStorage = req.params.total; //Stores the same value as a string to return to the webpage on request
-        res.send(JSON.stringify(userOrderTotal)); //I dont know why this works but it just does string --> float --> string
-    
-        //console.log("Server is users order total of: " + userOrderTotal);
-    
-})
 
 app.get("/user/usertotal/", (req, res) => { //Returns the value stores at /usertotal/ when requested by server
     res.send(orderStorage);
@@ -187,4 +127,3 @@ app.get("/user/usertotal/", (req, res) => { //Returns the value stores at /usert
 app.listen(PORT, () =>{
     console.log("Listening on port " + PORT)
 })
-
