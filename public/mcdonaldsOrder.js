@@ -65,56 +65,54 @@ function mealButton(){
     })
     console.log(userChoice);
     $("#price").text("$" + userTotal);
-
 }
 
 //This function is used to send what button the user has clicked for the tier
 //to the server. While at the same time it delectes all other buttons that were not selected visually on the webpage. 
 
 function checkButton(){
-    $.get("http://localhost:3000/drone/" + userChoice, function () {
-            console.log("Website is reporting button: " + userChoice);
-    })
-        if(userChoice == 0){
-            $('#baseTier').removeClass('btn-secondary').addClass('btn-primary');
-            $('#midTier').removeClass('btn-primary').addClass('btn-secondary');
-            $('#topTier').removeClass('btn-primary').addClass('btn-secondary');
-        }else if(userChoice == 1){
-            $('#baseTier').removeClass('btn-primary').addClass('btn-secondary');
-            $('#midTier').removeClass('btn-secondary').addClass('btn-primary');
-            $('#topTier').removeClass('btn-primary').addClass('btn-secondary');
-        }else if(userChoice == 2){
-            $('#baseTier').removeClass('btn-primary').addClass('btn-secondary');
-            $('#midTier').removeClass('btn-primary').addClass('btn-secondary');
-            $('#topTier').removeClass('btn-secondary').addClass('btn-primary');
-        }
+    document.cookie = "userChoice=" + userChoice + "; expires=" + new Date(Date.now() + 86400000).toUTCString() + "; path=/";
+    console.log('Value of "userChoice" cookie:', userChoice);
 
+    if(userChoice == 0){
+        $('#baseTier').removeClass('btn-secondary').addClass('btn-primary');
+        $('#midTier').removeClass('btn-primary').addClass('btn-secondary');
+        $('#topTier').removeClass('btn-primary').addClass('btn-secondary');
+    }else if(userChoice == 1){
+        $('#baseTier').removeClass('btn-primary').addClass('btn-secondary');
+        $('#midTier').removeClass('btn-secondary').addClass('btn-primary');
+        $('#topTier').removeClass('btn-primary').addClass('btn-secondary');
+    }else if(userChoice == 2){
+        $('#baseTier').removeClass('btn-primary').addClass('btn-secondary');
+        $('#midTier').removeClass('btn-primary').addClass('btn-secondary');
+        $('#topTier').removeClass('btn-secondary').addClass('btn-primary');
+    }
 }
 
 //This function is called when the user reloads the webpage and it highlights what
 //button the user had selected last (this also transfers across webpages). It also
 //pulls what tier was selected from the server. 
 function refreshWebPage(){
-    $.get("http://localhost:3000/drone/", function (pulledUserChoice) {
-        userChoice = pulledUserChoice; 
-        if(pulledUserChoice == 0){
-            $('#baseTier').removeClass('btn-secondary').addClass('btn-primary');
-            $('#midTier').removeClass('btn-primary').addClass('btn-secondary');
-            $('#topTier').removeClass('btn-primary').addClass('btn-secondary');
-        }else if(pulledUserChoice == 1){
-            $('#baseTier').removeClass('btn-primary').addClass('btn-secondary');
-            $('#midTier').removeClass('btn-secondary').addClass('btn-primary');
-            $('#topTier').removeClass('btn-primary').addClass('btn-secondary');
-        }else if(pulledUserChoice == 2){
-            $('#baseTier').removeClass('btn-primary').addClass('btn-secondary');
-            $('#midTier').removeClass('btn-primary').addClass('btn-secondary');
-            $('#topTier').removeClass('btn-secondary').addClass('btn-primary');
-        }
-    })
+    userChoice = decodeURIComponent(document.cookie.replace(/(?:(?:^|.*;\s*)userChoice\s*\=\s*([^;]*).*$)|^.*$/, "$1"));
+
+    console.log("The value of user choice is: " + userChoice);
+    if(userChoice == 0){
+        $('#baseTier').removeClass('btn-secondary').addClass('btn-primary');
+        $('#midTier').removeClass('btn-primary').addClass('btn-secondary');
+        $('#topTier').removeClass('btn-primary').addClass('btn-secondary');
+    }else if(userChoice == 1){
+        $('#baseTier').removeClass('btn-primary').addClass('btn-secondary');
+        $('#midTier').removeClass('btn-secondary').addClass('btn-primary');
+        $('#topTier').removeClass('btn-primary').addClass('btn-secondary');
+    }else if(userChoice == 2){
+        $('#baseTier').removeClass('btn-primary').addClass('btn-secondary');
+        $('#midTier').removeClass('btn-primary').addClass('btn-secondary');
+        $('#topTier').removeClass('btn-secondary').addClass('btn-primary');
+    }
+
     //Pulls the orders total amount that is stored on the server and changes it to a float for caculation.
-    $.get("http://localhost:3000/user/usertotal", function(orderTotal){
+    $.get("/user/usertotal", function(orderTotal){
         userTotal = parseFloat(orderTotal); 
         $("#price").text("$" + orderTotal);
-    })
-    
+    })    
 }

@@ -7,12 +7,19 @@ $(document).ready(function () {
 
         const data = {
             name: $("#userName").val(),
-            email:  $("#userEmail").val()
+            email:  $("#userEmail").val(),
+            zipCode: $("#zipCode").val()
         }
+
+        
 
         $.post("/api/users", data, function(data){
            console.log("done"); 
-           window.location.href='index.html';
+        $.get("/user/create/id/", function(id) {
+            console.log("The user id is: " + id);
+        })
+
+           //window.location.href='index.html';
         })
          .fail(function(jqXHR, textStatus, errorThrown) {
              // Handle error response
@@ -20,9 +27,6 @@ $(document).ready(function () {
                  // If response has a 409 status code, handle user already exists
                  console.error("User already exists");
                  $('#btnSave').removeClass('btn-success').addClass('btn-danger')
-
-
-                
              } else {
                  // Handle other error status codes
                  console.error("Failed to add user");
@@ -30,24 +34,10 @@ $(document).ready(function () {
          });
 
         console.log(data);
-
-        $("#btnSave").click(function () {  //Takes the user to the order webpage when clicked 
-            window.location.href='order.html';
-        })
-        $("#login").click(function () {  //Takes the user to the order webpage when clicked 
-            window.location.href='order.html';
-        })
-
-     
         return false; // Don't remove this line.
-
-       
     });
-        $("#btnSave").click(function () {  //Takes the user to the order webpage when clicked 
-            window.location.href='order.html';
-        })
+        
         $("#login").click(function () {  //Takes the user to the order webpage when clicked 
             window.location.href='login.html';
         })
-
 });
