@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    //Stores the zipcode for the user from the cookie
     let zip = decodeURIComponent(document.cookie.replace(/(?:(?:^|.*;\s*)userZip\s*\=\s*([^;]*).*$)|^.*$/, "$1"));
     console.log("The users zip code is: " + zip);
     if(zip === "48446"){

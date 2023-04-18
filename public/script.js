@@ -69,8 +69,7 @@ function checkButton(){
 //pulls what tier was selected from the server. 
 function refreshWebPage(){
     console.log("The value of user choice before the cookie is " + userChoice);
-    userChoice = decodeURIComponent(document.cookie.replace(/(?:(?:^|.*;\s*)userChoice\s*\=\s*([^;]*).*$)|^.*$/, "$1"));
-    console.log("The value of user choice after the cookie is: " + userChoice);    
+    userChoice = decodeURIComponent(document.cookie.replace(/(?:(?:^|.*;\s*)userChoice\s*\=\s*([^;]*).*$)|^.*$/, "$1"));   
         if(userChoice == 0){
             $('#baseTier').removeClass('btn-secondary').addClass('btn-primary');
             $('#midTier').removeClass('btn-primary').addClass('btn-secondary');
