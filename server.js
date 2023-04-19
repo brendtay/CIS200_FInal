@@ -13,8 +13,6 @@ const PORT = process.env.PORT || 3000;
 app.use(cors())
 app.use(express.static('public'))
 app.use(bodyParser.urlencoded({extended: true}));
-// Middleware for parsing cookies
-app.use(cookieParser());
 
 const pool = new Pool({
     user: 'postgres',
@@ -23,10 +21,6 @@ const pool = new Pool({
     password: '2014',
     port: 5432,
 })
-
-
-var userOrderTotal = 0; //Stores the total value of the order in a float
-var orderStorage = 0; //Stores the total value of the order in a string to return to the website
 
 var id = 1;
 
@@ -114,13 +108,32 @@ app.post("/api/users", (req, res) => {
     }); 
  })
 
+
+ app.post("/api/users/total", (req, res) => {
+
+    console.log(req.body);
+
+    const order = req.body.order;
+    const userid = req.body.userid;
+    const droneTier = req.body.drone;
+
+    console.log('Received order:', order);
+    console.log('Received userid:', userid);
+    console.log('Received droneTier:', droneTier);
+    const sql = "UPDATE users SET orderTotal = $1, droneLevel = $2 WHERE id = $3"
+    pool.query(sql, [order, droneTier, userid], (error, results) => {
+        if (error) {
+            // Handle error during update
+            res.status(500).json({ error: 'Failed to update orderTotal' });
+        } else {
+            // User updated successfully
+            res.status(200).json({ success: 'Order sent' });
+        }
+    });
+ })
+
 app.get("/user/create/id/", (req, res) => { //Returns the value stores at /usertotal/ when requested by server
     res.send(id.toString());
-})
-
-
-app.get("/user/usertotal/", (req, res) => { //Returns the value stores at /usertotal/ when requested by server
-    res.send(orderStorage);
 })
 
 

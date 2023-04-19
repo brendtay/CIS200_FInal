@@ -1,8 +1,10 @@
 let userChoice = 0; //Stores the users choice for the tier that was selected
 let userTotal = 0; //Stores the users total for the order
-
+let id = 0;
+let ordertotal = userTotal;
 $(document).ready(function () {//Loads all information required from the server when the page is refreshed
     refreshWebPage();
+    id = decodeURIComponent(document.cookie.replace(/(?:(?:^|.*;\s*)userId\s*\=\s*([^;]*).*$)|^.*$/, "$1"));
 });
 
 $("#Locations").click(function () {  //Takes the user to the locations webpage when selected
@@ -51,20 +53,47 @@ $("#QP-meal").click(function () {
 })
 
 $("#Checkout").click(function () {  //This button will be used to take the user to a checkout page in the future
-    window.location.href='404notFound.html';
+    
+
+    const data = {
+        order: userTotal,
+        userid: id,
+        drone: userChoice
+    }
+
+    $.post("/api/users/total", data, function(response){
+        console.log("Server response:", response); 
+        if(response.success){
+            $("#Checkout").text("Order has been placed!");
+        }else{
+            $("#Checkout").text("Order has not been placed!");
+        }
+    }).fail(function(xhr, textStatus, errorThrown) {
+        console.error("Error:", textStatus);
+        // Handle error here, e.g. display an error message to the user
+    });
 })
 
 $("#homePage").click(function () {   //This button call takes the user to the websites home page
     window.location.href='index.html';
 })
 
+$("#ResetOrder").click(function() {
+    userTotal = 0;
+    mealButton();
+    console.log("The order has been reset");
+    $("#Checkout").text("Place Order");
+
+
+})
+
 //Reports the orders total to the server and sents it on the webpage in a text box
 function mealButton(){
-    $.get("/usertotal/" + userTotal, function () {
-            console.log("Website is reporting the users total is: " + userTotal);
-    })
+
+    document.cookie = "usertotal=" + userTotal + "; expires=" + new Date(Date.now() + 86400000).toUTCString() + "; path=/";
+
     console.log(userChoice);
-    $("#price").text("$" + userTotal);
+    $("#price").text("$" + userTotal.toFixed(2));
 }
 
 //This function is used to send what button the user has clicked for the tier
@@ -111,8 +140,7 @@ function refreshWebPage(){
     }
 
     //Pulls the orders total amount that is stored on the server and changes it to a float for caculation.
-    $.get("/user/usertotal", function(orderTotal){
-        userTotal = parseFloat(orderTotal); 
-        $("#price").text("$" + orderTotal);
-    })    
+    userTotal = decodeURIComponent(document.cookie.replace(/(?:(?:^|.*;\s*)usertotal\s*\=\s*([^;]*).*$)|^.*$/, "$1"));
+    userTotal = parseFloat(userTotal); 
+    $("#price").text("$" + userTotal.toFixed(2)); 
 }

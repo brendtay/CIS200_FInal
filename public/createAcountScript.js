@@ -19,7 +19,7 @@ $(document).ready(function () {
             console.log("The user id is: " + id);
         })
 
-           //window.location.href='index.html';
+           window.location.href='index.html';
         })
          .fail(function(jqXHR, textStatus, errorThrown) {
              // Handle error response
