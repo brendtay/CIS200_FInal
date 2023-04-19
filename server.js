@@ -120,7 +120,7 @@ app.post("/api/users", (req, res) => {
     console.log('Received order:', order);
     console.log('Received userid:', userid);
     console.log('Received droneTier:', droneTier);
-    const sql = "UPDATE users SET orderTotal = $1, droneLevel = $2 WHERE id = $3"
+    const sql = "UPDATE users SET ordertotal = $1, dronelevel = $2 WHERE id = $3"
     pool.query(sql, [order, droneTier, userid], (error, results) => {
         if (error) {
             // Handle error during update
