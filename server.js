@@ -23,7 +23,6 @@ const pool = new Pool({
 })
 
 var id = 1;
-
 var login = false;
 
 app.get("/api/users", (req, res) => {
@@ -31,11 +30,9 @@ app.get("/api/users", (req, res) => {
     pool.query('SELECT * FROM users', (error, results) => {
        
         if (error) throw error
- 
         res.status(200).json(results.rows)
     })
  });
-
  
  app.post("/api/users/login", (req, res) => {
 

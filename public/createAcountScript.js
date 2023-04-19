@@ -11,24 +11,23 @@ $(document).ready(function () {
             zipCode: $("#zipCode").val()
         }
 
-        
-
         $.post("/api/users", data, function(data){
            console.log("done"); 
-        $.get("/user/create/id/", function(id) {
-            console.log("The user id is: " + id);
-        })
+            $.get("/user/create/id/", function(id) {
+                console.log("The user id is: " + id);
+            })
 
-           window.location.href='index.html';
+            //takes the user to the index window 
+            window.location.href='index.html';
         })
          .fail(function(jqXHR, textStatus, errorThrown) {
              // Handle error response
              if (jqXHR.status === 409) {
-                 // If response has a 409 status code, handle user already exists
+                 // If response has a 409 status code, user already exists
                  console.error("User already exists");
                  $('#btnSave').removeClass('btn-success').addClass('btn-danger')
              } else {
-                 // Handle other error status codes
+                 // Handle other error status codes (user already exists)
                  console.error("Failed to add user");
              }
          });

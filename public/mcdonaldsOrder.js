@@ -4,6 +4,7 @@ let id = 0;
 let ordertotal = userTotal;
 $(document).ready(function () {//Loads all information required from the server when the page is refreshed
     refreshWebPage();
+    //stores id to a cookie
     id = decodeURIComponent(document.cookie.replace(/(?:(?:^|.*;\s*)userId\s*\=\s*([^;]*).*$)|^.*$/, "$1"));
 });
 
@@ -32,13 +33,13 @@ $("#topTier").click(function () {  //The top tier is identifed as 2 calls the ch
 //These button calls are all used to add up the price of the total order from the price listed
 //These two are for the BigMac
 $("#BM-sandwich").click(function () {  //The price of the BigMac sandwich only is $4.50 which is added to the users total order price
-        userTotal += 4.50;
-        mealButton(); //The total order amount is reported to the server
+    userTotal += 4.50;
+    mealButton(); //The total order amount is reported to the server
 })
 $("#BM-meal").click(function () {  
-        userTotal += 7.75;
-        console.log(userTotal);
-        mealButton();
+    userTotal += 7.75;
+    console.log(userTotal);
+    mealButton();
 })
 
 //These Two are for the quarter pounder
@@ -54,7 +55,6 @@ $("#QP-meal").click(function () {
 
 $("#Checkout").click(function () {  //This button will be used to take the user to a checkout page in the future
     
-
     const data = {
         order: userTotal,
         userid: id,
@@ -63,6 +63,7 @@ $("#Checkout").click(function () {  //This button will be used to take the user 
 
     $.post("/api/users/total", data, function(response){
         console.log("Server response:", response); 
+        //If the server responds back with successful that means the server has confirmed the order
         if(response.success){
             $("#Checkout").text("Order has been placed!");
         }else{
@@ -78,7 +79,7 @@ $("#homePage").click(function () {   //This button call takes the user to the we
     window.location.href='index.html';
 })
 
-$("#ResetOrder").click(function() {
+$("#ResetOrder").click(function() { //Resets the users total order to 0
     userTotal = 0;
     mealButton();
     console.log("The order has been reset");
@@ -87,7 +88,7 @@ $("#ResetOrder").click(function() {
 
 })
 
-//Reports the orders total to the server and sents it on the webpage in a text box
+//Stores the users order total on a cookie and uppdates the button
 function mealButton(){
 
     document.cookie = "usertotal=" + userTotal + "; expires=" + new Date(Date.now() + 86400000).toUTCString() + "; path=/";
@@ -98,7 +99,6 @@ function mealButton(){
 
 //This function is used to send what button the user has clicked for the tier
 //to the server. While at the same time it delectes all other buttons that were not selected visually on the webpage. 
-
 function checkButton(){
     document.cookie = "userChoice=" + userChoice + "; expires=" + new Date(Date.now() + 86400000).toUTCString() + "; path=/";
     console.log('Value of "userChoice" cookie:', userChoice);
@@ -139,7 +139,7 @@ function refreshWebPage(){
         $('#topTier').removeClass('btn-secondary').addClass('btn-primary');
     }
 
-    //Pulls the orders total amount that is stored on the server and changes it to a float for caculation.
+    //Pulls the orders total amount that is stored on the cookie and changes it to a float for caculation.
     userTotal = decodeURIComponent(document.cookie.replace(/(?:(?:^|.*;\s*)usertotal\s*\=\s*([^;]*).*$)|^.*$/, "$1"));
     userTotal = parseFloat(userTotal); 
     $("#price").text("$" + userTotal.toFixed(2)); 
